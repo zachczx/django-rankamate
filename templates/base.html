@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>Rank-a-Mate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    {% load compress %} {% compress css %}
+    <link
+      type="text/x-scss"
+      href="{% static 'rankingapp_theme.scss' %}"
+      rel="stylesheet"
+      media="all"
+    />
+    <link rel="stylesheet" href="{% static 'css/standard.css' %}" media="all" />
+    <link
+      rel="stylesheet"
+      href="{% static 'css/nouislider.css' %}"
+      media="all"
+    />
+    {% endcompress %}
+    <script src="{% static 'js/htmx.min.js' %}"></script>
+
+  </head>
+
+  <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <main>
+      <div class="container">
+        <div class="row mt-1">
+          <div class="col text-center">
+            <a href="{% url 'rankinghome' %}" class="no-hover text-white"
+              ><img
+                src="{% static '_c7ad51c4-e9f8-4b1f-b142-4699f1d96a8f.webp' %}"
+                width="120"
+                height="120"
+                class="img-fluid"
+            /></a>
+          </div>
+        </div>
+      </div>
+      {% block content %} {% endblock %}
+    </main>
+    {% include 'partials/footer.html' %}
+  </body>
+</html>
