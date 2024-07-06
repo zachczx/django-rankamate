@@ -1,0 +1,10 @@
+*.env
+*.env.dev
+*.pyc
+staticfiles/
+*.sqlite3
+data.json
+rankapp/migrations/
+CACHE/
+*.old
+venv/
