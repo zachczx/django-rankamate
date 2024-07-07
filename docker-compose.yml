@@ -9,7 +9,7 @@ services:
     ports:
       - $POSTGRESDB_LOCAL_PORT:$POSTGRESDB_DOCKER_PORT
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - postgres_data:/var/lib/postgresql/data/rankamate/
     environment:
       - POSTGRES_USER=$POSTGRES_USER
       - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
@@ -19,6 +19,8 @@ services:
       timeout: 60s
       retries: 5
       start_period: 80s
+#    networks:
+#      coolify: null
 
   backend:
       build: 
@@ -30,12 +32,19 @@ services:
       volumes:
         - .:/app
       ports:
-        - "8000:8000"
+        - "8099:8000"
       env_file:
         - .env
       depends_on:
         db:
           condition: service_healthy
+#      networks:
+#        coolify: null
 
 volumes:
   postgres_data:
+
+#networks:
+#  coolify:
+#    name: coolify
+#    external: true
