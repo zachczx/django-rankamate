@@ -97,18 +97,18 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-    # "default": {
-    # "ENGINE": "django.db.backends.postgresql",
-    # "NAME": "postgres",
-    # "USER": "postgres",
-    # "PASSWORD": "postgres",
-    # "HOST": "db",  # set in docker-compose.yml
-    # "PORT": 5432,  # default postgres port
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
+    "default": {
+    "ENGINE": "django.db.backends.postgresql",
+    "NAME": env('DB_NAME'),
+    "USER": env('DB_USER'),
+    "PASSWORD": env('DB_PASSWORD'),
+    "HOST": env('DB_HOST'),  # set in docker-compose.yml
+    "PORT": env('DB_PORT'),  # default postgres port
+    }
 }
 
 STATIC_URL = 'assets/'
@@ -159,7 +159,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Singapore'
 
 USE_I18N = True
 
