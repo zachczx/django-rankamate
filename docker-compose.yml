@@ -1,20 +1,41 @@
 # docker-compose.yml
 services:
-  web:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8001
-    ports:
-      - "8001:8001"
-    volumes:
-      - .:/code
-    depends_on:
-      - db
   db:
     image: postgres:16
+    container_name: rankamate_postgres_container
+    restart: always
+    env_file: 
+      - .env
+    ports:
+      - $POSTGRESDB_LOCAL_PORT:$POSTGRESDB_DOCKER_PORT
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - "POSTGRES_HOST_AUTH_METHOD=trust"
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres", "-d"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+
+  backend:
+      build: 
+        context: .
+        dockerfile: Dockerfile
+      container_name: rankamate_backend_container
+      command: sh -c "python3 manage.py migrate --noinput && python3 manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000"
+      restart: always
+      volumes:
+        - .:/app
+      ports:
+        - "8000:8000"
+      env_file:
+        - .env
+      depends_on:
+        db:
+          condition: service_healthy
 
 volumes:
   postgres_data:

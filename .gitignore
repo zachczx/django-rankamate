@@ -8,3 +8,4 @@ rankapp/migrations/
 CACHE/
 *.old
 venv/
+assets/
